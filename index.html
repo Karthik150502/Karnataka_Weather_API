@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+
+
+
+    body{
+        background-image: url("back.png");
+        background-size: cover;
+    }
+
+
+
+
+    #main{
+        background: rgba(62, 59, 59, 0.3);
+        backdrop-filter: saturate(250%) blur(5px);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid black;
+        border-radius: 10px;
+        width: 50%;
+        position: relative;
+        left: 25%;
+    }
+
+    #main legend{
+        text-align: center;
+    }
+
+    #main input{
+        margin: 10px;
+
+    }
+    #getweatherbutton{
+        background-color: cadetblue;
+        border: none;
+        height: 20px;
+        border-radius: 5px;
+    }
+    #getweatherbutton:hover{
+        background-color: darkblue;
+        color:white ;
+    }
+    #main #weather{
+        display: inline-block;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #display{
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+    #display div h5{
+        text-decoration:none;
+        position: relative;
+        left: 25%;
+    }
+
+</style>
+
+
+<body>
+    <fieldset id="main">
+        <legend>Weather Checker!</legend>
+            <div id="user">
+                <label for="">Username</label><input id="username" type="text">
+                <label for="">Password</label><input id="password" type="text">
+            </div>
+            
+            <div id="weather">
+                <label for="">Enter any City name in Bangalore</label><input id="city" type="text">
+                <button id="getweatherbutton" onclick="getweather()">Get Weather!</button>
+                <fieldset id="display">
+                    <div>
+                        <h5 id="temp"></h5>
+                        <h5 id="ws"></h5>
+                        <h5 id="sky"></h5>
+                    </div>
+                </fieldset>
+
+            </div>
+            
+    </fieldset>
+
+    <script>
+
+
+        const getweather=()=>{
+            let username = document.getElementById('username').value
+            let password = document.getElementById('password').value
+            let city = document.getElementById('city').value
+
+            if (username!=='Admin'||password!=='admin'){
+                alert("Invalid Username or Password")
+                return
+            }
+
+            else{
+                //fetch weather data from API 
+            
+            let url = `https://goweather.herokuapp.com/weather/${city}`
+            let fetched_url = fetch(url)
+
+            fetched_url.then((response)=>{
+                return response.json()
+            }).then((result)=>{
+
+                let cel = result['temperature']
+                let windsp =result['wind']
+                let desc = result['description']
+
+
+                console.log(result)
+                // document.getElementById('temp').innerHTML= cel
+                // document.getElementById('ws').innerHTML= windsp
+                // document.getElementById('sky').innerHTML= desc
+                document.getElementById('temp').innerHTML= `The temperature in ${city} is ${cel}`
+                document.getElementById('ws').innerHTML= `The wind speed in ${city} is ${windsp}`
+                document.getElementById('sky').innerHTML= `The sky is ${desc}`
+            })
+        }}
+
+    </script>
+
+</body>
+</html>
